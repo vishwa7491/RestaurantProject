@@ -3,6 +3,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const {
   createFoodController,
   getAllFoodsController,
+  getOneFoodController,
 } = require("../controllers/foodController");
 
 const router = express.Router();
@@ -13,5 +14,8 @@ router.post("/create", authMiddleware, createFoodController);
 
 // get all foods
 router.get("/getAll", getAllFoodsController);
+
+// get single food
+router.get("/get/:id", getOneFoodController);
 
 module.exports = router;
