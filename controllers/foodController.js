@@ -105,8 +105,41 @@ const getOneFoodController = async (req, res) => {
   }
 };
 
+// get food by restaurant
+const getFoodByRestaurantController = async (req, res) => {
+  try {
+    const restaurantId = req.params.id;
+    if (!restaurantId) {
+      return res.status(404).send({
+        success: false,
+        message: "Please provide restaurant Id.",
+      });
+    }
+    const food = await foodModel.find({ restaurant: restaurantId });
+    if (!food) {
+      return res.status(404).send({
+        success: false,
+        message: "No food found with this Id.",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "Food based on restaurant.",
+      food,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in GET SINGLE FOOD API.",
+      error,
+    });
+  }
+};
+
 module.exports = {
   createFoodController,
   getAllFoodsController,
   getOneFoodController,
+  getFoodByRestaurantController,
 };

@@ -4,6 +4,7 @@ const {
   createFoodController,
   getAllFoodsController,
   getOneFoodController,
+  getFoodByRestaurantController,
 } = require("../controllers/foodController");
 
 const router = express.Router();
@@ -17,5 +18,8 @@ router.get("/getAll", getAllFoodsController);
 
 // get single food
 router.get("/get/:id", getOneFoodController);
+
+// get food by restaurant
+router.get("/getByRestaurant/:id", getFoodByRestaurantController);
 
 module.exports = router;
