@@ -137,9 +137,69 @@ const getFoodByRestaurantController = async (req, res) => {
   }
 };
 
+// update food
+const updateFoodController = async (req, res) => {
+  try {
+    const foodId = req.params.id;
+    if (!foodId) {
+      res.status(404).send({
+        success: false,
+        message: "Please provide food Id.",
+      });
+    }
+    const food = await foodModel.findById(foodId);
+    if (!food) {
+      res.status(404).send({
+        success: false,
+        message: "No food of this Id available.",
+      });
+    }
+    const {
+      title,
+      description,
+      price,
+      imageUrl,
+      foodTags,
+      category,
+      code,
+      isAvailable,
+      restaurant,
+      rating,
+    } = req.body;
+    const updatedFood = await foodModel.findByIdAndUpdate(
+      foodId,
+      {
+        title,
+        description,
+        price,
+        imageUrl,
+        foodTags,
+        category,
+        code,
+        isAvailable,
+        restaurant,
+        rating,
+      },
+      { new: true },
+    );
+    res.status(200).send({
+      success: true,
+      message: "Food item has been updated successfully.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in UPDATE FOOD API.",
+      error,
+    });
+  }
+};
+
 module.exports = {
   createFoodController,
   getAllFoodsController,
   getOneFoodController,
   getFoodByRestaurantController,
+  updateFoodController,
 };
